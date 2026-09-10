@@ -1,0 +1,36 @@
+{
+  "name": "remix-resonance",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "ReMix 共鸣 · 霓光回响 — Three.js 节奏生存游戏（非官方致敬作品）",
+  "license": "MIT",
+  "author": "leoliu <[email protected]>",
+  "homepage": "https://leoliu-bot.github.io/sound-remix/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leoliu-bot/sound-remix.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leoliu-bot/sound-remix/issues"
+  },
+  "keywords": [
+    "three.js",
+    "rhythm",
+    "roguelite",
+    "voxel",
+    "web-audio",
+    "synth",
+    "browser-game",
+    "tribute"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node scripts/check.mjs",
+    "publish": "pwsh -ExecutionPolicy Bypass -File scripts/publish.ps1"
+  }
+}
