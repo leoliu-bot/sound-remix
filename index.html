@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#091812" />
+  <meta name="description" content="共鸣 ReMix：以音乐为武器，在霓光森林中对抗虚空。Three.js 节奏生存游戏。" />
+  <title>ReMix 共鸣 — 霓光回响</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./style.css" />
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body>
+  <canvas id="world" aria-label="共鸣：霓光森林战斗场景"></canvas>
+  <div class="vignette"></div><div class="grain"></div>
+  <div id="loading"><div class="loader-mark">R<span>:</span></div><div class="loading-track"><i></i></div><p>正在唤醒森林中的回响</p></div>
+  <main id="menu" class="screen menu-screen" hidden>
+    <header class="menu-header"><a class="wordmark" href="./" aria-label="ReMix 首页">RE<span>MIX</span><small>共 鸣</small></a><div class="edition"><i></i> RESONANCE PROJECT <span>VOL. 01</span></div><button id="menu-settings" class="icon-button" title="设置" aria-label="打开设置">⚙</button></header>
+    <div class="menu-content">
+      <div class="eyebrow"><span>01 / 霓光森林</span><span class="rule"></span> NEON GROVE</div>
+      <h1>让世界<br>再次<span class="outline">共鸣</span><span class="title-dot">.</span></h1>
+      <p class="menu-description">跟随心跳，击碎寂静。<br>在音乐消失之前，奏响属于你的回声。</p>
+      <div class="select-label"><span>选择你的演奏者</span><span>01 — 03</span></div>
+      <div id="characters" class="characters" role="group" aria-label="选择演奏者">
+        <button class="character selected" data-character="0"><span class="char-symbol">◈</span><span><b>奥克塔维娅</b><small>MELODIC HOUSE</small></span><span class="char-no">01</span></button>
+        <button class="character" data-character="1"><span class="char-symbol">ϟ</span><span><b>阿玛雅</b><small>FUTURE FUNK</small></span><span class="char-no">02</span></button>
+        <button class="character" data-character="2"><span class="char-symbol">✳</span><span><b>回声</b><small>SYNTHWAVE</small></span><span class="char-no">03</span></button>
+      </div>
+      <div class="character-detail"><span id="char-skill">音符追踪 · 均衡而精准</span><span id="char-bpm">120 BPM</span></div>
+      <button id="start" class="start-button"><span class="start-play">▶</span><span>开启共鸣<small>ENTER THE GROOVE</small></span><span class="start-arrow">↗</span></button>
+      <button id="how-to" class="text-button">初次演奏？ <span>查看操作指南 ↗</span></button>
+    </div>
+    <div class="scene-caption"><span class="scene-cross">+</span><div><small>THE SILENCE IS ALIVE</small><b>寂静之中，万物有声。</b></div><span class="scene-coordinate">32° 08′ N<br>118° 47′ E</span></div>
+    <footer class="menu-footer"><span>A RHYTHM SURVIVAL EXPERIENCE</span><span>建议佩戴耳机 <span class="headphones">♬</span></span><span>非官方致敬作品 / THREE.JS</span></footer>
+  </main>
+  <section id="hud" hidden aria-label="游戏状态">
+    <div class="hud-top">
+      <div class="player-panel"><div id="portrait" class="portrait">◈</div><div class="player-info"><div class="player-name"><b id="hero-name">奥克塔维娅</b><span id="level">LV. 01</span></div><div class="health-track"><i id="health-bar"></i></div><div class="health-meta"><span id="health-text">100 / 100</span><span>RESONANCE</span></div><div class="xp-track"><i id="xp-bar"></i></div></div></div>
+      <div class="time-panel"><span id="stage-label">01 / 林间序曲</span><strong id="timer">00:00</strong><span id="objective">在霓光森林中生存</span></div>
+      <div class="run-panel"><div class="kill-stat"><span>虚空净化</span><b id="kills">000</b></div><button id="sound-toggle" class="icon-button" aria-label="静音" title="静音">♫</button><button id="pause-button" class="icon-button" aria-label="暂停" title="暂停 Esc">Ⅱ</button></div>
+    </div>
+    <div id="boss-hud" hidden><span>寂静之心 <small>THE SILENT ONE</small></span><div><i id="boss-health"></i></div></div>
+    <div class="side-stage"><span>NEON<br>GROVE</span><i></i><small id="wave-label">第一乐章</small></div>
+    <div id="announcement" class="announcement" aria-live="polite"></div>
+    <div id="judgement" class="judgement"></div>
+    <div id="combo-display" class="combo-display"><b id="combo">0</b><span>共鸣连击</span></div>
+    <div id="damage-flash"></div>
+    <div class="hud-bottom">
+      <div class="track-panel"><div class="record"><div></div></div><div><small>NOW PLAYING</small><b id="track-name">Emerald Afterglow</b><span id="bpm-label">120 BPM · MELODIC HOUSE</span></div></div>
+      <div class="rhythm-panel"><div class="rhythm-title"><span>跟随节拍 <b id="beat-quality">寻找你的节奏</b></span><span id="beat-number">01 / 04</span></div><div id="rhythm-track"><div class="beat-lane"></div><div class="beat-target"></div><div id="beat-notes"></div></div><div class="rhythm-caption"><span><kbd>点击</kbd> 节拍重音</span><span>合拍攻击获得额外伤害</span></div></div>
+      <div class="abilities"><div class="ability" id="dash-ability"><span class="ability-icon">↗</span><span>闪避</span><kbd>SPACE</kbd><i id="dash-cooldown"></i></div><div class="ability ultimate" id="pulse-ability"><span class="ability-icon">✳</span><span id="pulse-label">共鸣爆发</span><kbd>Q</kbd><i id="pulse-charge"></i></div></div>
+    </div>
+    <div class="movement-hint" id="movement-hint"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 移动 <span>·</span> 自动随节拍攻击 <span>·</span> <kbd>ESC</kbd> 暂停</div>
+    <div id="mobile-controls"><div id="joystick"><i></i></div><button id="mobile-dash">闪避</button><button id="mobile-pulse">爆发</button></div>
+  </section>
+  <div id="pause-screen" class="modal-screen" hidden><section class="modal pause-modal"><div class="eyebrow">TAKE A BREATH</div><h2>音乐暂歇<span>.</span></h2><p>下一拍，继续你的演奏。</p><button id="resume" class="solid-button">继续演奏 <span>↗</span></button><button id="pause-settings" class="secondary-button">声音与画面</button><button id="restart" class="secondary-button">重新开始</button><button id="quit" class="text-button">返回主菜单</button><small>按 ESC 继续</small></section></div>
+  <div id="upgrade-screen" class="modal-screen" hidden><section class="upgrade-modal"><div class="eyebrow">FIND YOUR FREQUENCY</div><h2>让回声更响<span>.</span></h2><p>选择一枚共鸣芯片，改变下一段旋律。</p><div id="upgrade-cards"></div><span class="upgrade-tip">按 1 / 2 / 3 选择 · 选择期间战斗暂停</span></section></div>
+  <div id="result-screen" class="modal-screen" hidden><section class="modal result-modal"><div id="result-eyebrow" class="eyebrow">EVERY END IS AN ECHO</div><h2 id="result-title">回声仍在<span>.</span></h2><p id="result-description">一次休止，是下一次起奏的开始。</p><div class="result-stats"><div><strong id="result-time">00:00</strong><span>演奏时长</span></div><div><strong id="result-kills">0</strong><span>虚空净化</span></div><div><strong id="result-combo">0</strong><span>最高连击</span></div></div><div class="score-line"><span>本次得分</span><b id="result-score">0</b><small id="best-score"></small></div><button id="play-again" class="solid-button">再次共鸣 <span>↗</span></button><button id="result-home" class="text-button">返回主菜单</button></section></div>
+  <div id="help-screen" class="modal-screen" hidden><section class="modal help-modal"><button class="close-button" data-close="help-screen" aria-label="关闭操作指南">×</button><div class="eyebrow">HOW TO RESONATE</div><h2>把心跳变成武器<span>.</span></h2><div class="help-grid"><div><kbd>W A S D / 方向键</kbd><b>在森林中移动</b><p>远离虚空生物，拾取青色音符获得经验。</p></div><div><kbd>鼠标左键 / J</kbd><b>击中节拍，获得重音</b><p>角色自动随节拍攻击。音符到达中线时点击，释放更强的音波。</p></div><div><kbd>SPACE / SHIFT</kbd><b>穿过危险</b><p>沿移动方向闪避，期间免疫伤害。每两秒恢复。</p></div><div><kbd>Q / K</kbd><b>共鸣爆发</b><p>消灭敌人、准确击拍积攒能量。满能量时释放全范围音浪。</p></div></div><p class="help-goal">坚持至 02:30，击败「寂静之心」。每次升级可从三枚随机芯片中选择一枚。</p><button class="solid-button" data-close="help-screen">找到我的节奏 <span>↗</span></button></section></div>
+  <div id="settings-screen" class="modal-screen" hidden><section class="modal settings-modal"><button class="close-button" data-close="settings-screen" aria-label="关闭设置">×</button><div class="eyebrow">TUNE YOUR EXPERIENCE</div><h2>调好你的频率<span>.</span></h2><label class="setting-row"><span>主音量</span><input id="volume" type="range" min="0" max="100" value="65"><output id="volume-value">65%</output></label><label class="setting-row"><span>画面质量</span><select id="quality"><option value="high">精致</option><option value="low">流畅</option></select></label><label class="setting-row"><span>镜头震动</span><input id="shake" type="checkbox" checked></label><p>音乐与音效由实时合成器生成。耳机体验更佳。</p><button class="solid-button" data-close="settings-screen">完成 <span>↗</span></button></section></div>
+  <div id="fatal" hidden><h2>森林暂时无法醒来</h2><p>请使用支持 WebGL 2 的现代浏览器，并开启硬件加速。</p><pre id="fatal-detail"></pre><button onclick="location.reload()">重新加载</button></div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
